@@ -47,3 +47,10 @@ func NewWriter(w io.Writer, from, to string) io.WriteCloser {
 		to:   []byte(to),
 	})
 }
+
+func NewReader(r io.Reader, from, to string) io.Reader {
+	return transform.NewReader(r, &replacer{
+		from: []byte(from),
+		to:   []byte(to),
+	})
+}

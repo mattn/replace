@@ -41,6 +41,12 @@ func TestWriter(t *testing.T) {
 			in:   "xfo\noy",
 			want: "xb\nary",
 		},
+		{
+			from: "fo\no",
+			to:   "b\nar",
+			in:   "xfoy",
+			want: "xfoy",
+		},
 	}
 	for _, test := range tests {
 		var buf bytes.Buffer

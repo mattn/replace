@@ -34,10 +34,7 @@ func main() {
 		fname := filepath.Base(flag.Arg(2)) + "-temp-*"
 		tmp, err := ioutil.TempFile(filepath.Dir(flag.Arg(2)), fname)
 		fatalIf(err)
-		defer func() {
-			err := os.Rename(tmp.Name(), f.Name())
-			fatalIf(err)
-		}()
+		defer fatalIf(os.Rename(tmp.Name(), f.Name()))
 		defer tmp.Close()
 		defer f.Close()
 

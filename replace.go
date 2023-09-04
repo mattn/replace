@@ -19,10 +19,12 @@ func (t *replacer) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err e
 	if len(src) == 0 && atEOF {
 		return
 	}
+	lTo := len(t.to)
+	lFrom := len(t.from)
 
 	for nDst < len(dst) && nSrc < len(src) {
-		if len(src) >= len(t.from) && bytes.HasPrefix(src[nSrc:], t.from) {
-			if nDst+len(t.to) > len(dst) {
+		if len(src) >= lFrom && bytes.HasPrefix(src[nSrc:], t.from) {
+			if nDst+lTo > len(dst) {
 				err = transform.ErrShortDst
 				break
 			}
@@ -30,7 +32,11 @@ func (t *replacer) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err e
 			if n <= 0 {
 				break
 			}
-			nSrc += n
+			if n < lFrom || lFrom < lTo {
+				nSrc += lFrom
+			} else {
+				nSrc += n
+			}
 			nDst += n
 		} else {
 			dst[nDst] = src[nSrc]

@@ -47,6 +47,36 @@ func TestWriter(t *testing.T) {
 			in:   "xfoy",
 			want: "xfoy",
 		},
+		{
+			from: "foo",
+			to:   "bar",
+			in:   "fooxfooyfooz",
+			want: "barxbarybarz",
+		},
+		{
+			from: "牧羊",
+			to:   "秋田",
+			in:   "牧羊犬",
+			want: "秋田犬",
+		},
+		{
+			from: "牧羊",
+			to:   "柴",
+			in:   "牧羊犬",
+			want: "柴犬",
+		},
+		{
+			from: "柴",
+			to:   "牧羊",
+			in:   "柴犬",
+			want: "牧羊犬",
+		},
+		{
+			from: "柴",
+			to:   "牧羊",
+			in:   "柴柴犬",
+			want: "牧羊牧羊犬",
+		},
 	}
 	for _, test := range tests {
 		var buf bytes.Buffer
